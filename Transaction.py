@@ -13,3 +13,6 @@ class Transaction:
 
     def to_json(self):
         return self.__dict__
+
+    def sign(self, signature):
+        self.signature = signature

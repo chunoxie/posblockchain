@@ -1,4 +1,5 @@
 from Transaction import Transaction
+from Wallet import Wallet
 
 def test_transaction():
     sender = 'sender'
@@ -7,8 +8,16 @@ def test_transaction():
     type = 'TRANSFER'
 
     transaction = Transaction(sender, receiver, amount, type)
-    print("Printing dict directly: ", transaction.__dict__)
-    print("Printing the to_json method: ", transaction.to_json())
+
+    wallet = Wallet()
+    signature = wallet.sign(transaction.to_json())
+
+    print("\nPrinting dict directly:\n", transaction.__dict__)
+    print("\nPrinting the to_json method:\n", transaction.to_json())
+    print("\nPrinting signature from Wallet:\n", signature)
+
+    transaction.sign(signature)
+    print("\nPrinting signed transaction the to_json method:\n", transaction.to_json())
 
 if __name__ == '__main__':
     test_transaction()
