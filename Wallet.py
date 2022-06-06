@@ -1,5 +1,6 @@
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
+from Transaction import Transaction
 from utils import BlockchainUtils
 
 class Wallet:
@@ -24,3 +25,9 @@ class Wallet:
     def public_key_string(self):
         public_key_string = self.key_pair.publickey().exportKey('PEM').decode('utf-8')
         return public_key_string
+
+    def create_transaction(self, receiver_public_key, amount, type):
+        transaction = Transaction(self.public_key_string(), receiver_public_key, amount, type)
+        signature = self.sign(transaction.payload())
+        transaction.sign(signature)
+        return transaction

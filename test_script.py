@@ -1,7 +1,7 @@
 from Transaction import Transaction
 from Wallet import Wallet
 
-def test_transaction():
+def test_old_transaction():
     sender = 'sender'
     receiver = 'receiver'
     amount = 1
@@ -16,11 +16,30 @@ def test_transaction():
     print("\nPrinting the to_json method:\n", transaction.to_json())
     print("\nPrinting signature from Wallet:\n", signature)
 
-    # transaction.sign(signature)
+    transaction.sign(signature)
     print("\nPrinting signed transaction the to_json method:\n", transaction.to_json())
 
-    signature_valid = Wallet.signature_valid(transaction.to_json(), signature, wallet.public_key_string())
+    signature_valid = Wallet.signature_valid(transaction.payload(), signature, wallet.public_key_string())
     print("\nTesting if signature is valid:\n", signature_valid)
 
+def test_new_transaction():
+    sender = 'sender'
+    receiver = 'receiver'
+    amount = 1
+    type = 'TRANSFER'
+
+    wallet = Wallet()
+    fraudulent_wallet = Wallet()
+    transaction = wallet.create_transaction(receiver, amount, type)
+    print("\nPrinting with to_json method\n", transaction.to_json())
+    print("\nPrinting with payload method\n", transaction.payload())
+
+    signature_valid = Wallet.signature_valid(transaction.payload(), transaction.signature, wallet.public_key_string())
+    print("\nPrint is valid signature:\n", signature_valid)
+
+    fraudulent_signature = Wallet.signature_valid(transaction.payload(), transaction.signature, fraudulent_wallet.public_key_string())
+    print("\nPrinting is valid signature with fraudulent wallet:\n", fraudulent_signature)
+
 if __name__ == '__main__':
-    test_transaction()
+    #test_old_transaction()
+    test_new_transaction()

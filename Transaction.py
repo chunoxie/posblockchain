@@ -1,3 +1,4 @@
+import copy
 import uuid
 import time
 
@@ -16,3 +17,8 @@ class Transaction:
 
     def sign(self, signature):
         self.signature = signature
+
+    def payload(self):
+        json_representation = copy.deepcopy(self.to_json())
+        json_representation['signature'] = ''
+        return json_representation
