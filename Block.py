@@ -1,3 +1,4 @@
+import copy
 from time import time
 
 
@@ -20,6 +21,14 @@ class Block:
         json_transactions = []
         for transaction in self.transactions:
             json_transactions.append(transaction.to_json())
-            
+
         data['transactions'] = json_transactions
         return data
+
+    def payload(self):
+        json_representation = copy.deepcopy(self.to_json())
+        json_representation['signature'] = ''
+        return json_representation
+
+    def sign(self, signature):
+        self.signature = signature

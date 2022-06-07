@@ -1,3 +1,4 @@
+import pprint
 from Block import Block
 from Transaction import Transaction
 from Wallet import Wallet
@@ -57,10 +58,16 @@ def test_transaction_pool():
     if pool.transaction_exists(transaction) == False: 
         pool.add_transaction(transaction)
 
-    block = Block(pool.transactions, 'last_hash', 'forger', 1)
+    block = wallet.create_block(pool.transactions, 'last_hash', 1)
+    print("Printing block created from Wallet create_block method:\n", block.to_json())
 
-    print("\nPrinting list of transactions in the pool\n", pool.transactions)
-    print("\nPrinting a block:\n", block.to_json())
+    signature_valid = Wallet.signature_valid(block.payload(), block.signature, wallet.public_key_string())
+    print("\nValidating signature:\n", signature_valid)
+
+    # block = Block(pool.transactions, 'last_hash', 'forger', 1)
+
+    # print("\nPrinting list of transactions in the pool\n", pool.transactions)
+    # print("\nPrinting a block:\n", block.to_json())
 
 if __name__ == '__main__':
     #test_old_transaction()
