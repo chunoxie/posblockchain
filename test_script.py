@@ -4,6 +4,7 @@ from Blockchain import Blockchain
 from Transaction import Transaction
 from Wallet import Wallet
 from TransactionPool import TransactionPool
+from utils import BlockchainUtils
 
 def test_old_transaction():
     sender = 'sender'
@@ -59,9 +60,22 @@ def test_transaction_pool():
     if pool.transaction_exists(transaction) == False: 
         pool.add_transaction(transaction)
 
-    block = wallet.create_block(pool.transactions, 'last_hash', 1)
-
     blockchain = Blockchain()
+    last_hash = BlockchainUtils.hash(blockchain.blocks[-1].payload()).hexdigest()
+    block_count = blockchain.blocks[-1].block_count + 1
+
+    block = wallet.create_block(pool.transactions, last_hash, block_count)
+
+    if not blockchain.last_block_hash_is_valid(block):
+        print("\nLast block hash is not valid!\n")
+
+    if not blockchain.block_count_valid(block):
+        print("\nBlock count is not valid!\n")
+
+    if blockchain.last_block_hash_is_valid(block) and blockchain.block_count_valid(block):
+        blockchain.add_block(block)
+
+
     # blockchain.add_block(block)
     print(blockchain.to_json())
     # print("Printing block created from Wallet create_block method:\n", block.to_json())
