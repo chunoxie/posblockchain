@@ -1,5 +1,6 @@
 import pprint
 from Block import Block
+from Blockchain import Blockchain
 from Transaction import Transaction
 from Wallet import Wallet
 from TransactionPool import TransactionPool
@@ -59,10 +60,14 @@ def test_transaction_pool():
         pool.add_transaction(transaction)
 
     block = wallet.create_block(pool.transactions, 'last_hash', 1)
-    print("Printing block created from Wallet create_block method:\n", block.to_json())
 
-    signature_valid = Wallet.signature_valid(block.payload(), block.signature, wallet.public_key_string())
-    print("\nValidating signature:\n", signature_valid)
+    blockchain = Blockchain()
+    blockchain.add_block(block)
+    print(blockchain.to_json())
+    # print("Printing block created from Wallet create_block method:\n", block.to_json())
+
+    # signature_valid = Wallet.signature_valid(block.payload(), block.signature, wallet.public_key_string())
+    # print("\nValidating signature:\n", signature_valid)
 
     # block = Block(pool.transactions, 'last_hash', 'forger', 1)
 
