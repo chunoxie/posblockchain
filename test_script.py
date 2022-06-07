@@ -62,7 +62,7 @@ def test_transaction_pool():
     block = wallet.create_block(pool.transactions, 'last_hash', 1)
 
     blockchain = Blockchain()
-    blockchain.add_block(block)
+    # blockchain.add_block(block)
     print(blockchain.to_json())
     # print("Printing block created from Wallet create_block method:\n", block.to_json())
 
