@@ -104,6 +104,13 @@ def test_covered_transactions():
 
     alice = Wallet()
     bob = Wallet()
+    exchange = Wallet()
+
+    # Create exchange transaction to fund wallet
+    exchange_transaction = exchange.create_transaction(alice.public_key_string(), 10, 'EXCHANGE')
+
+    if not transaction_pool.transaction_exists(exchange_transaction):
+        transaction_pool.add_transaction(exchange_transaction)
 
     # Alice sending 5 to Bob
     transaction = alice.create_transaction(bob.public_key_string(), 5, "TRANSFER")

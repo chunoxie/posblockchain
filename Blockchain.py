@@ -43,6 +43,9 @@ class Blockchain:
         return covered_transactions
 
     def transaction_covered(self, transaction):
+        if transaction.type == 'EXCHANGE':
+            return True
+            
         sender_balance = self.account_model.get_balance(transaction.sender_public_key)
         if sender_balance >= transaction.amount:
             return True
