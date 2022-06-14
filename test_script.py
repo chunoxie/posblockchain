@@ -105,21 +105,36 @@ def test_covered_transactions():
     alice = Wallet()
     bob = Wallet()
     exchange = Wallet()
+    forger = Wallet()
 
     # Create exchange transaction to fund wallet
     exchange_transaction = exchange.create_transaction(alice.public_key_string(), 10, 'EXCHANGE')
 
     if not transaction_pool.transaction_exists(exchange_transaction):
         transaction_pool.add_transaction(exchange_transaction)
+    covered_transactions = blockchain.get_covered_transaction_set(transaction_pool.transactions)
+    
+    last_hash = BlockchainUtils.hash(blockchain.blocks[-1].payload()).hexdigest()
+    block_count = blockchain.blocks[-1].block_count + 1
+    block_one = Block(covered_transactions, last_hash, forger.public_key_string(), block_count)
+    
+    blockchain.add_block(block_one)
 
     # Alice sending 5 to Bob
     transaction = alice.create_transaction(bob.public_key_string(), 5, "TRANSFER")
 
     if not transaction_pool.transaction_exists(transaction):
         transaction_pool.add_transaction(transaction)
-
     covered_transactions = blockchain.get_covered_transaction_set(transaction_pool.transactions)
-    print(covered_transactions)
+
+    last_hash = BlockchainUtils.hash(blockchain.blocks[-1].payload()).hexdigest()
+    block_count = blockchain.blocks[-1].block_count + 1
+    block_two = Block(covered_transactions, last_hash, forger.public_key_string(), block_count)
+
+    blockchain.add_block(block_two)
+    
+    #print(covered_transactions)
+    pprint.pprint(blockchain.to_json())
 
 if __name__ == '__main__':
     #test_old_transaction()
