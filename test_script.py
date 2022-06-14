@@ -116,9 +116,12 @@ def test_covered_transactions():
     
     last_hash = BlockchainUtils.hash(blockchain.blocks[-1].payload()).hexdigest()
     block_count = blockchain.blocks[-1].block_count + 1
-    block_one = Block(covered_transactions, last_hash, forger.public_key_string(), block_count)
     
+    #block_one = Block(covered_transactions, last_hash, forger.public_key_string(), block_count)
+    block_one = forger.create_block(covered_transactions, last_hash, block_count)
     blockchain.add_block(block_one)
+
+    transaction_pool.remove_from_pool(block_one.transactions)
 
     # Alice sending 5 to Bob
     transaction = alice.create_transaction(bob.public_key_string(), 5, "TRANSFER")
@@ -129,12 +132,16 @@ def test_covered_transactions():
 
     last_hash = BlockchainUtils.hash(blockchain.blocks[-1].payload()).hexdigest()
     block_count = blockchain.blocks[-1].block_count + 1
-    block_two = Block(covered_transactions, last_hash, forger.public_key_string(), block_count)
-
+    
+    #block_two = Block(covered_transactions, last_hash, forger.public_key_string(), block_count)
+    block_two = forger.create_block(covered_transactions, last_hash, block_count)
     blockchain.add_block(block_two)
+
+    transaction_pool.remove_from_pool(block_two.transactions)
     
     #print(covered_transactions)
-    pprint.pprint(blockchain.to_json())
+    #pprint.pprint(blockchain.to_json())
+    print(blockchain.to_json())
 
 if __name__ == '__main__':
     #test_old_transaction()
