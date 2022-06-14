@@ -98,8 +98,25 @@ def test_account_model():
     account_model.update_balance(wallet.public_key_string(), -5)
     print(account_model.balances)
 
+def test_covered_transactions():
+    blockchain = Blockchain()
+    transaction_pool = TransactionPool()
+
+    alice = Wallet()
+    bob = Wallet()
+
+    # Alice sending 5 to Bob
+    transaction = alice.create_transaction(bob.public_key_string(), 5, "TRANSFER")
+
+    if not transaction_pool.transaction_exists(transaction):
+        transaction_pool.add_transaction(transaction)
+
+    covered_transactions = blockchain.get_covered_transaction_set(transaction_pool.transactions)
+    print(covered_transactions)
+
 if __name__ == '__main__':
     #test_old_transaction()
     #test_new_transaction()
     #test_transaction_pool()
-    test_account_model()
+    #test_account_model()
+    test_covered_transactions()
