@@ -6,6 +6,7 @@ from Wallet import Wallet
 from TransactionPool import TransactionPool
 from utils import BlockchainUtils
 from AccountModel import AccountModel
+from Node import Node
 
 def test_old_transaction():
     sender = 'sender'
@@ -143,9 +144,17 @@ def test_covered_transactions():
     #pprint.pprint(blockchain.to_json())
     print(blockchain.to_json())
 
+def test_node():
+    node = Node()
+
+    print(node.blockchain)
+    print(node.transaction_pool)
+    print(node.wallet)
+
 if __name__ == '__main__':
     #test_old_transaction()
     #test_new_transaction()
     #test_transaction_pool()
     #test_account_model()
-    test_covered_transactions()
+    #test_covered_transactions()
+    test_node()
