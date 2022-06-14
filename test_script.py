@@ -93,7 +93,9 @@ def test_account_model():
     wallet = Wallet()
     account_model = AccountModel()
 
-    account_model.add_account(wallet.public_key_string())
+    #account_model.add_account(wallet.public_key_string())
+    account_model.update_balance(wallet.public_key_string(), 10)
+    account_model.update_balance(wallet.public_key_string(), -5)
     print(account_model.balances)
 
 if __name__ == '__main__':
