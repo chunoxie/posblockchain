@@ -5,6 +5,7 @@ from Transaction import Transaction
 from Wallet import Wallet
 from TransactionPool import TransactionPool
 from utils import BlockchainUtils
+from AccountModel import AccountModel
 
 def test_old_transaction():
     sender = 'sender'
@@ -88,7 +89,15 @@ def test_transaction_pool():
     # print("\nPrinting list of transactions in the pool\n", pool.transactions)
     # print("\nPrinting a block:\n", block.to_json())
 
+def test_account_model():
+    wallet = Wallet()
+    account_model = AccountModel()
+
+    account_model.add_account(wallet.public_key_string())
+    print(account_model.balances)
+
 if __name__ == '__main__':
     #test_old_transaction()
     #test_new_transaction()
-    test_transaction_pool()
+    #test_transaction_pool()
+    test_account_model()
