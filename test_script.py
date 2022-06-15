@@ -7,6 +7,7 @@ from TransactionPool import TransactionPool
 from utils import BlockchainUtils
 from AccountModel import AccountModel
 from Node import Node
+import sys
 
 def test_old_transaction():
     sender = 'sender'
@@ -145,11 +146,16 @@ def test_covered_transactions():
     print(blockchain.to_json())
 
 def test_node():
-    node = Node()
+    # argv[0] is always the program itself on the command line
+    ip = sys.argv[1]
+    port = int(sys.argv[2])
 
-    print(node.blockchain)
-    print(node.transaction_pool)
-    print(node.wallet)
+    node = Node(ip, port)
+    node.start_p2p()
+
+    # print(node.blockchain)
+    # print(node.transaction_pool)
+    # print(node.wallet)
 
 if __name__ == '__main__':
     #test_old_transaction()
