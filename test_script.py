@@ -152,6 +152,7 @@ def test_node():
 
     node = Node(ip, port)
     node.start_p2p()
+    node.start_API()
 
     # if port == 10002:
     #     node.p2p.connect_with_node('localhost', 10001)
