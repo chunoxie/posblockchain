@@ -3,6 +3,8 @@ from Wallet import Wallet
 from Blockchain import Blockchain
 from SocketCommunication import SocketCommunication
 from NodeAPI import NodeAPI
+from Message import Message
+from utils import BlockchainUtils
 
 class Node:
     def __init__(self, ip, port):
@@ -15,7 +17,7 @@ class Node:
 
     def start_p2p(self):
         self.p2p = SocketCommunication(self.ip, self.port)
-        self.p2p.start_socket_communication()
+        self.p2p.start_socket_communication(self)
 
     def start_API(self, api_port):
         self.api = NodeAPI()
@@ -32,3 +34,6 @@ class Node:
         
         if not transaction_exists and signature_valid:
             self.transaction_pool.add_transaction(transaction)
+            message = Message(self.p2p.socket_connector, 'TRANSACTION', transaction)
+            encoded_message = BlockchainUtils.encode(message)
+            self.p2p.broadcast(encoded_message)
