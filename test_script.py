@@ -9,6 +9,7 @@ from AccountModel import AccountModel
 from Node import Node
 import sys
 from POS import ProofOfStake
+from Lot import Lot
 
 def test_old_transaction():
     sender = 'sender'
@@ -171,6 +172,10 @@ def test_pos():
     print(pos.get('alice'))
     print(pos.get('jack'))
 
+def test_lot():
+    lot = Lot('bob', 1, 'last_hash')
+    print(lot.lot_hash())
+
 if __name__ == '__main__':
     #test_old_transaction()
     #test_new_transaction()
@@ -178,4 +183,5 @@ if __name__ == '__main__':
     #test_account_model()
     #test_covered_transactions()
     #test_node()
-    test_pos()
+    #test_pos()
+    test_lot()
