@@ -10,6 +10,7 @@ from Node import Node
 import sys
 from POS import ProofOfStake
 from Lot import Lot
+import string, random
 
 def test_old_transaction():
     sender = 'sender'
@@ -164,6 +165,11 @@ def test_node():
     # print(node.transaction_pool)
     # print(node.wallet)
 
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    result = ''.join(random.choice(letters) for i in range(length))
+    return result
+
 def test_pos():
     pos = ProofOfStake()
     pos.update('bob', 10)
@@ -176,6 +182,23 @@ def test_lot():
     lot = Lot('bob', 1, 'last_hash')
     print(lot.lot_hash())
 
+def test_forger_selection():
+    pos = ProofOfStake()
+    pos.update('bob', 10)
+    pos.update('alice', 100)
+
+    bob_wins = 0
+    alice_wins = 0
+
+    for i in range(100):
+        forger = pos.forger(get_random_string(i))
+        if forger == 'bob':
+            bob_wins += 1
+        elif forger == 'alice':
+            alice_wins += 1
+
+    print(f'Bob won {bob_wins} times.\nAlice won {alice_wins} times.')
+
 if __name__ == '__main__':
     #test_old_transaction()
     #test_new_transaction()
@@ -184,4 +207,5 @@ if __name__ == '__main__':
     #test_covered_transactions()
     #test_node()
     #test_pos()
-    test_lot()
+    #test_lot()
+    test_forger_selection()
