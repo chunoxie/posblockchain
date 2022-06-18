@@ -8,6 +8,7 @@ from utils import BlockchainUtils
 from AccountModel import AccountModel
 from Node import Node
 import sys
+from POS import ProofOfStake
 
 def test_old_transaction():
     sender = 'sender'
@@ -162,10 +163,19 @@ def test_node():
     # print(node.transaction_pool)
     # print(node.wallet)
 
+def test_pos():
+    pos = ProofOfStake()
+    pos.update('bob', 10)
+    pos.update('alice', 100)
+    print(pos.get('bob'))
+    print(pos.get('alice'))
+    print(pos.get('jack'))
+
 if __name__ == '__main__':
     #test_old_transaction()
     #test_new_transaction()
     #test_transaction_pool()
     #test_account_model()
     #test_covered_transactions()
-    test_node()
+    #test_node()
+    test_pos()
