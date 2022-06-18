@@ -37,3 +37,14 @@ class Node:
             message = Message(self.p2p.socket_connector, 'TRANSACTION', transaction)
             encoded_message = BlockchainUtils.encode(message)
             self.p2p.broadcast(encoded_message)
+
+            forging_required = self.transaction_pool.forger_required()
+            if forging_required:
+                self.forge()
+
+    def forge(self):
+        forger = self.blockchain.next_forger()
+        if forger == self.wallet.public_key_string():
+            print('I am the next forger')
+        else:
+            print('I am not the next forger')
