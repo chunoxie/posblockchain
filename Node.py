@@ -7,13 +7,15 @@ from Message import Message
 from utils import BlockchainUtils
 
 class Node:
-    def __init__(self, ip, port):
+    def __init__(self, ip, port, key = None):
         self.p2p = None
         self.ip = ip 
         self.port = port 
         self.transaction_pool = TransactionPool()
         self.wallet = Wallet()
         self.blockchain = Blockchain()
+        if key is not None:
+            self.wallet.from_key(key)
 
     def start_p2p(self):
         self.p2p = SocketCommunication(self.ip, self.port)

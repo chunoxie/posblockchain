@@ -4,6 +4,11 @@ from utils import BlockchainUtils
 class ProofOfStake:
     def __init__(self):
         self.stakers = {}
+        self.set_genesis_node_stake()
+
+    def set_genesis_node_stake(self):
+        genesis_public_key = open('keys/genesisPublicKey.pem', 'r').read()
+        self.stakers[genesis_public_key] = 1
 
     def update(self, public_key_string, stake):
         if public_key_string in self.stakers.keys():
