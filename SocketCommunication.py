@@ -34,6 +34,9 @@ class SocketCommunication(Node):
         elif message.message_type == 'TRANSACTION':
             transaction = message.data
             self.node.handle_transaction(transaction)
+        elif message.message_type == 'BLOCK':
+            block = message.data
+            self.node.handle_block(block)
 
     def send(self, receiver, message):
         self.send_to_node(receiver, message)
