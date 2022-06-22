@@ -19,9 +19,11 @@ def test_interaction():
     # forger: genesis
     post_transaction(exchange, alice, 100, 'EXCHANGE')
     post_transaction(exchange, bob, 100, 'EXCHANGE')
-    post_transaction(alice, alice, 25, 'STAKE')
+    post_transaction(exchange, bob, 100, 'EXCHANGE')
 
     # forger: most likely Alice
+    post_transaction(alice, alice, 25, 'STAKE')
+    post_transaction(alice, bob, 1, 'TRANSFER')
     post_transaction(alice, bob, 1, 'TRANSFER')
 
 
