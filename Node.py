@@ -5,6 +5,7 @@ from SocketCommunication import SocketCommunication
 from NodeAPI import NodeAPI
 from Message import Message
 from utils import BlockchainUtils
+import copy
 
 class Node:
     def __init__(self, ip, port, key = None):
@@ -56,13 +57,39 @@ class Node:
         transactions_valid = self.blockchain.transactions_valid(block.transactions)
         signature_valid = Wallet.signature_valid(block_hash, signature, forger)
 
-        if last_block_hash_valid and forger_valid and transactions_valid and signature_valid and block_count_valid:
+        if not block_count_valid:
+            self.request_chain()
+
+        if last_block_hash_valid and forger_valid and transactions_valid and signature_valid:
             self.blockchain.add_block(block)
             self.transaction_pool.remove_from_pool(block.transactions)
-            
+
             message = Message(self.p2p.socket_connector, 'BLOCK', block)
             encoded_message = BlockchainUtils.encode(message)
             self.p2p.broadcast(encoded_message)
+
+    def request_chain(self):
+        message = Message(self.p2p.socket_connector, 'BLOCKCHAINREQUEST', None)
+        encoded_message = BlockchainUtils.encode(message)
+        self.p2p.broadcast(encoded_message)
+
+    def handle_blockchain_request(self, requesting_node):
+        message = Message(self.p2p.socket_connector, 'BLOCKCHAIN', self.blockchain)
+        encoded_message = BlockchainUtils.encode(message)
+        self.p2p.send(requesting_node, encoded_message)
+
+    def handle_blockchain(self, blockchain):
+        local_blockchain_copy = copy.deepcopy(self.blockchain)
+        local_block_count = len(local_blockchain_copy.blocks)
+        received_blockchain_block_count = len(blockchain.blocks)
+
+        if local_block_count < received_blockchain_block_count:
+            for block_number, block in enumerate(blockchain.blocks):
+                if block_number >= local_block_count:
+                    local_blockchain_copy.add_block(block)
+                    self.transaction_pool.remove_from_pool(block.transactions)
+                    
+            self.blockchain = local_blockchain_copy
 
     def forge(self):
         forger = self.blockchain.next_forger()
