@@ -1,10 +1,10 @@
-from TransactionPool import TransactionPool
-from Wallet import Wallet
-from Blockchain import Blockchain
-from SocketCommunication import SocketCommunication
-from NodeAPI import NodeAPI
-from Message import Message
-from utils import BlockchainUtils
+from backend.transact.TransactionPool import TransactionPool
+from backend.transact.Wallet import Wallet
+from backend.transact.Blockchain import Blockchain
+from backend.nodes.SocketCommunication import SocketCommunication
+from backend.nodes.NodeAPI import NodeAPI
+from backend.nodes.Message import Message
+from backend.utils.utils import BlockchainUtils
 import copy
 
 class Node:
@@ -58,6 +58,7 @@ class Node:
         signature_valid = Wallet.signature_valid(block_hash, signature, forger)
 
         if not block_count_valid:
+            #print('I am requesting for blockchain.')
             self.request_chain()
 
         if last_block_hash_valid and forger_valid and transactions_valid and signature_valid:
@@ -72,6 +73,7 @@ class Node:
         message = Message(self.p2p.socket_connector, 'BLOCKCHAINREQUEST', None)
         encoded_message = BlockchainUtils.encode(message)
         self.p2p.broadcast(encoded_message)
+        print('I am requesting for blockchain.')
 
     def handle_blockchain_request(self, requesting_node):
         message = Message(self.p2p.socket_connector, 'BLOCKCHAIN', self.blockchain)

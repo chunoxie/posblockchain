@@ -1,8 +1,8 @@
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
-from Block import Block
-from Transaction import Transaction
-from utils import BlockchainUtils
+from backend.transact.Block import Block
+from backend.transact.Transaction import Transaction
+from backend.utils.utils import BlockchainUtils
 
 class Wallet:
     def __init__(self):

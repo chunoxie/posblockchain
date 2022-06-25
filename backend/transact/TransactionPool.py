@@ -23,7 +23,7 @@ class TransactionPool:
         self.transactions = new_pool_transactions
 
     def forger_required(self):
-        if len(self.transactions) >= 3:
+        if len(self.transactions) >= 1:
             return True
         else: 
             return False

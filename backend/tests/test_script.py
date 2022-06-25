@@ -1,15 +1,15 @@
 import pprint
-from Block import Block
-from Blockchain import Blockchain
-from Transaction import Transaction
-from Wallet import Wallet
-from TransactionPool import TransactionPool
-from utils import BlockchainUtils
-from AccountModel import AccountModel
-from Node import Node
+from backend.transact.Block import Block
+from backend.transact.Blockchain import Blockchain
+from backend.transact.Transaction import Transaction
+from backend.transact.Wallet import Wallet
+from backend.transact.TransactionPool import TransactionPool
+from backend.utils.utils import BlockchainUtils
+from backend.transact.AccountModel import AccountModel
+from backend.nodes.Node import Node
 import sys
-from POS import ProofOfStake
-from Lot import Lot
+from backend.utils.POS import ProofOfStake
+from backend.utils.Lot import Lot
 import string, random
 
 def test_old_transaction():

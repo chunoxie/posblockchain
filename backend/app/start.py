@@ -1,5 +1,5 @@
-import sys
-from Node import Node
+import sys, time
+from backend.nodes.Node import Node
 
 def start_node():
     # argv[0] is always the program itself on the command line
@@ -13,6 +13,12 @@ def start_node():
 
     node = Node(ip, port, key_file)
     node.start_p2p()
+    print('P2P connection started...')
+    time.sleep(5)
+    print('Requesting blockchain...')
+    node.request_chain()
+
+    print('Starting API service...')
     node.start_API(api_port)
 
 if __name__ == '__main__':

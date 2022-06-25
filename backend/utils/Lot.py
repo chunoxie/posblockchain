@@ -1,5 +1,5 @@
 import imp
-from utils import BlockchainUtils
+from backend.utils.utils import BlockchainUtils
 
 class Lot:
     def __init__(self, public_key, iteration, last_block_hash):

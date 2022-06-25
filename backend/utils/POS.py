@@ -1,5 +1,5 @@
-from Lot import Lot
-from utils import BlockchainUtils
+from backend.utils.Lot import Lot
+from backend.utils.utils import BlockchainUtils
 
 class ProofOfStake:
     def __init__(self):
@@ -7,7 +7,7 @@ class ProofOfStake:
         self.set_genesis_node_stake()
 
     def set_genesis_node_stake(self):
-        genesis_public_key = open('keys/genesisPublicKey.pem', 'r').read()
+        genesis_public_key = open('backend/keys/genesisPublicKey.pem', 'r').read()
         self.stakers[genesis_public_key] = 1
 
     def update(self, public_key_string, stake):

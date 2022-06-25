@@ -1,6 +1,6 @@
 import threading, time
-from Message import Message
-from utils import BlockchainUtils
+from backend.nodes.Message import Message
+from backend.utils.utils import BlockchainUtils
 
 class PeerDiscoveryHandler:
     def __init__(self, node):

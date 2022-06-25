@@ -1,7 +1,7 @@
-from Block import Block
-from utils import BlockchainUtils
-from AccountModel import AccountModel
-from POS import ProofOfStake
+from backend.transact.Block import Block
+from backend.utils.utils import BlockchainUtils
+from backend.transact.AccountModel import AccountModel
+from backend.utils.POS import ProofOfStake
 
 class Blockchain:
     def __init__(self):
